@@ -1,3 +1,5 @@
+#include <string>
+
 class TrieNode {
     public:
     char data;
@@ -66,6 +68,43 @@ class Trie{
     
     bool search(string word) {
         return searchWord(root, word);
+    }
+    
+    void removeWord(TrieNode *root, string word){
+        //Base Case
+        if(word.size() == 0){
+            root->isTerminal = false;
+            return;
+        }
+        
+        //Small Calculation
+        TrieNode *child;
+        int index = word[0] - 'a';
+        if(root->children[index] != NULL){
+            child = root->children[index];
+        }
+        else{
+            //Word not found
+            return;
+        }
+        
+        removeChild(child, word.substr(1));
+        
+        //Remove child node if it is useless
+        if(child->isTerminal == false){
+            for(int i=0; i<26; i++){
+                if(child->children[i] != NULL){
+                    return;
+                }
+            }
+            
+            delete child;
+            root->children[index] = NULL;
+        }
+    }
+    
+    void removeChild(string word){
+        removeChild(root, word);
     }
 };
 
