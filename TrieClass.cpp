@@ -48,5 +48,24 @@ class Trie{
     void insertWord(string word){
         insertWord(root, word);
     }
+    
+    bool searchWord(TrieNode *root, string word){
+        if(word.size() == 0){
+            return root->isTerminal;
+        }
+        
+        int index = word[0] - 'a';
+        TrieNode *child;
+        if(root->children[index] != NULL){
+            child = root->children[index];
+            return searchWord(child, word.substr(1));
+        }
+        
+        return false;
+    }
+    
+    bool search(string word) {
+        return searchWord(root, word);
+    }
 };
 
